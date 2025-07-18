@@ -1,0 +1,28 @@
+# Environment files
+.env
+
+# Data directories
+data/
+
+# Logs
+*.log
+logs/
+
+# OS files
+.DS_Store
+Thumbs.db
+*.tmp
+*.swp
+*.swo
+
+# IDE files
+.vscode/
+.idea/
+*.sublime-*
+
+# Docker
+.docker/
+
+# Backup files
+*.bak
+*.backup

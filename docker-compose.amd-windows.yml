@@ -1,0 +1,34 @@
+# Docker Compose override for AMD GPU support on Windows
+# Note: AMD GPU acceleration in Docker on Windows is limited
+# This configuration uses CPU with optimizations
+
+services:
+  # Ollama optimized for Windows with AMD GPU (CPU fallback)
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    restart: unless-stopped
+    ports:
+      - "${OLLAMA_PORT:-11434}:11434"
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+      - OLLAMA_ORIGINS=*
+      - OLLAMA_NUM_PARALLEL=2
+      - OLLAMA_MAX_LOADED_MODELS=1
+    volumes:
+      - ollama-data:/root/.ollama
+    networks:
+      - ai-stack
+    deploy:
+      resources:
+        limits:
+          cpus: '6.0'
+          memory: 12G
+        reservations:
+          cpus: '2.0'
+          memory: 4G
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11434"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
